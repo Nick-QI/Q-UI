@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0
+    }
+
+    ul {
+      margin: 0;
+      width: 200px;
+      padding: 0;
+      white-space: nowrap;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      font-size: 0;
+    }
+
+    ul>li {
+      width: 50px;
+      display: inline-block;
+      line-height: 60px;
+      font-size: 20px;
+    }
+
+    ul>li:nth-child(odd) {
+      background: skyblue;
+    }
+
+    ul>li:nth-child(even) {
+      background: greenyellow;
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li>tab1</li>
+    <li>tab2</li>
+    <li>tab3</li>
+    <li>tab4</li>
+    <li>tab5</li>
+    <li>tab6</li>
+  </ul>
+</body>
+<script>
+  let uls = document.getElementsByTagName('ul')[0]
+  let lis = uls.children
+  // 功能点： 点击tab， 默认将其滚动至ul最左边
+  console.log(uls, lis)
+  for (let i = 0, len = lis.length; i < len; i++) {
+    lis[i].onclick = () => {
+      console.log(i)
+      scrollTab(i)
+    }
+  }
+  setLi()
+
+  // 增加一个li，宽度是ul宽 - 最后一个li的宽
+  function setLi() {
+    let lastLeft = parseFloat(window.getComputedStyle(uls, null).width) - parseFloat(window.getComputedStyle(lis[lis.length -
+      1], null).width)
+    let liDom = document.createElement('li')
+    liDom.style.width = lastLeft + 'px'
+    uls.appendChild(liDom)
+  }
+
+  // 滚动效果
+  // index ： 用户点击的li 下标
+  // step： 用户自定义 每一次定时要加的步数
+  // second： 用户自定义 多久执行一次
+  function scrollTab(index, step, second) {
+    let liLeft = lis[index].offsetLeft
+    let basic = uls.scrollLeft
+    // 判断默认值
+    step = step || 5
+    second = second || 10
+    if (liLeft === basic) return
+    let timer
+    clearInterval(timer)
+    timer = setInterval(() => {
+      let bol
+      if (liLeft > basic) {
+        basic += step
+        bol = basic >= liLeft && true
+      } else {
+        basic -= step
+        bol = basic <= liLeft && true
+      }
+      if (bol) {
+        uls.scrollLeft = liLeft
+        clearInterval(timer)
+      } else {
+        uls.scrollLeft = basic
+      }
+    }, second)
+  }
+</script>
+
+</html>
