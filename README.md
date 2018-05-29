@@ -5,6 +5,8 @@
   点击tab后,自动将点击的item滚动 到 最左 || 居中
   > autoleft
   ![image](http://os33agcwz.bkt.clouddn.com/autoLeft.gif)
+
+
   > autocenter
   ![image](http://os33agcwz.bkt.clouddn.com/autocenter.gif)
 
